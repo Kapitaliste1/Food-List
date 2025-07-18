@@ -44,7 +44,9 @@ class FoodDetailsViewModel: ObservableObject {
                     }
                     
                 } receiveValue: { isLiked in
-                    self.food.isLiked  = isLiked
+                    if isLiked {
+                        self.food.isLiked = !(self.food.isLiked ?? false)
+                    }
                 }
                 .store(in: &cancellables)
         }
