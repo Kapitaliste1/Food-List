@@ -26,6 +26,10 @@ struct NetworkConfiguration {
     
     init(path: Path) {
         
+        let memoryCapacity: Int = 500 * 1024 * 1024 // 500 MB memory cache
+        let diskCapacity: Int = 500 * 1024 * 1024  // 500 MB disk cache
+        URLCache.shared = URLCache(memoryCapacity: memoryCapacity, diskCapacity: diskCapacity, diskPath: "imageCache")
+        
         switch path {
         case .foodList(currentPage: let currentPage):
             self.url = self.baseURL + "food/\(currentPage)"

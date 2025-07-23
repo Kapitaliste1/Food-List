@@ -10,6 +10,7 @@ import Combine
 
 struct FoodDetailsView: View {
     @ObservedObject var viewModel: FoodDetailsViewModel
+    @EnvironmentObject var toastConfig: ToastConfiguration
     
     var body: some View {
         ZStack {
@@ -44,6 +45,10 @@ struct FoodDetailsView: View {
                             
                             Button {
                                 self.viewModel.evaluateFood()
+                                if let errorMessage = viewModel.errorMessage, self.viewModel.showErrorToastMessage {
+                                    self.toastConfig.isShowing = true
+                                    self.toastConfig.message = errorMessage
+                                }
                             } label: {
                                 if self.viewModel.food.isLiked ?? false {
                                     Image(systemName: "heart.fill")
@@ -75,9 +80,7 @@ struct FoodDetailsView: View {
                 .padding(10)
             }
             
-            if let errorMessage = viewModel.errorMessage {
-                ToastView(message: errorMessage, isShowing: $viewModel.showErrorToastMessage)
-            }
+            
         }
     }
     
